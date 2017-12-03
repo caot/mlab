@@ -16,8 +16,8 @@ def readme():
                 return f.read()
         except (IOError, OSError):
             return ''
-    with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as f:
-        document = docutils.core.publish_doctree(f.read())
+    with open(os.path.join(os.path.dirname(__file__), 'README.rst'), 'rb') as f:
+        document = docutils.core.publish_doctree(f.read(), source_path=f.name)
         nodes = list(document)
         description = ''
         for node in nodes:
@@ -27,7 +27,7 @@ def readme():
                     or type(node) is docutils.nodes.title:
                 continue
             description += node.astext() + '\n'
-        return description.encode('ascii', 'ignore').strip()
+        return description
 
 
 setup(
